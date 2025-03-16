@@ -54,12 +54,10 @@ jobs:
       - name: Check if branch is up-to-date with main
         run: |
           git fetch origin main
-          LOCAL_COMMIT=$(git rev-parse HEAD)
-          MAIN_COMMIT=$(git rev-parse origin/main)
-
-          if [ "$LOCAL_COMMIT" = "$MAIN_COMMIT" ]; then
+          if git merge-base --is-ancestor origin/main HEAD; then
             echo "✅ Branch is up-to-date with main."
           else
             echo "❌ Branch is NOT up-to-date with main. Please rebase or merge main."
             exit 1
           fi
+        shell: bash # Ensure the correct shell is used
