@@ -1,37 +1,36 @@
 import globals from "globals";
+import pluginJs from "@eslint/js";
+import tseslint from "typescript-eslint";
+import pluginReact from "eslint-plugin-react";
+import eslintPluginPrettier from "eslint-plugin-prettier";
+import tsParser from "@typescript-eslint/parser";
+
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-  {
-    files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"], 
-    languageOptions: {
-      globals: {
+  {files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"]},
+  { 
+    languageOptions: { 
+      ecmaVersion: "latest",
+      sourceType: "module",
+      globals: { 
         ...globals.browser,
-        ...globals.node, 
+        ...globals.node 
       },
-    },
-    plugins: ["react", "react-native", "prettier"], 
-    extends: [
-      "eslint:recommended", 
-      "plugin:react/recommended", 
-      "plugin:react-native/all", 
-      "plugin:@typescript-eslint/recommended", 
-      "plugin:prettier/recommended", 
-    ],
-    parser: "@typescript-eslint/parser", 
-    parserOptions: {
-      ecmaVersion: 2021,
-      sourceType: "module", 
-      ecmaFeatures: {
-        jsx: true, 
-      },
-    },
-    rules: {
-      "prettier/prettier": "error", 
-      "react/prop-types": "off", 
-      "react-native/no-inline-styles": "warn", 
-      "react-native/no-unused-styles": "warn", 
-      "@typescript-eslint/no-unused-vars": "warn", 
-    },
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: "latest",
+        sourceType: "module",
+        jsx: true,
+      }, 
+    }
+  },
+  {
+    plugins: {
+      prettier: eslintPluginPrettier, 
+      react: pluginReact, 
+      "@typescript-eslint": tseslint, 
+      "@eslint/js": pluginJs
+    }
   },
 ];
